@@ -7,8 +7,9 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -23,13 +24,21 @@
     /* Paths */
     "baseUrl": ".",
     "paths": {
-      "_context": ["src/context/*"],
+      "_components/*": ["src/components/*"],
+      "_utils": ["src/lib/utils.ts"],
+      "_context/*": ["src/context/*"],
       "_config/*": ["src/config/*"],
       "_models/*": ["src/models/*"],
       "_src/*": ["src/*"]
     }
   },
-  "include": ["src", "@types", "./eslint.config.cjs"],
+  "include": [
+    "src",
+    "@types",
+    "./eslint.config.cjs",
+    "./postcss.config.js",
+    "./tailwind.config.js"
+  ],
   "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

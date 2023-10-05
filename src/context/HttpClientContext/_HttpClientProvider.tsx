@@ -8,8 +8,13 @@ interface IHttpClientProviderProps {
   client: IHttpClient;
 }
 
-function HttpClientProvider({ client, children }: React.PropsWithChildren<IHttpClientProviderProps>) {
-  const contextValue = useMemo<React.ComponentProps<typeof HttpClientContext.Provider>['value']>(() => {
+function HttpClientProvider({
+  client,
+  children,
+}: React.PropsWithChildren<IHttpClientProviderProps>) {
+  const contextValue = useMemo<
+    React.ComponentProps<typeof HttpClientContext.Provider>['value']
+  >(() => {
     return {
       httpClient: client,
     };

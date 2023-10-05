@@ -11,9 +11,8 @@ const vitePlugins = [react(), tsconfigPaths()];
 let httpsConfig: CommonServerOptions['https'] = false;
 if (process.env.IS_SECURE === 'true') {
   configureSsl();
+  dns.setDefaultResultOrder('verbatim');
 }
-
-dns.setDefaultResultOrder('verbatim');
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -21,6 +20,7 @@ export default defineConfig(({ mode }) => {
     plugins: vitePlugins,
     server: {
       https: httpsConfig,
+      host: process.env.IS_SECURE === 'true' ? 'localhost' : '127.0.0.1',
     },
     build: {
       minify: mode === 'production' ? 'esbuild' : false,

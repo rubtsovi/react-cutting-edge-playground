@@ -1,18 +1,17 @@
 import React from 'react';
 
+import { DevSupport } from '@react-buddy/ide-toolbox';
 import ReactDOM from 'react-dom/client';
 
-import initHttpClient, { FetchApiClient } from '_config/httpClient';
-import HttpClientProvider from '_src/context/HttpClientContext';
+import { ComponentPreviews } from '_src/dev';
 
 import App from './App.tsx';
-
-const httpClient = initHttpClient(FetchApiClient);
+import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <HttpClientProvider client={httpClient}>
+    <DevSupport ComponentPreviews={ComponentPreviews}>
       <App />
-    </HttpClientProvider>
+    </DevSupport>
   </React.StrictMode>
 );

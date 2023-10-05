@@ -16,19 +16,19 @@ export interface ResponseObject<T> {
 }
 
 export interface IHttpClient {
-  makeRequest<TResponse, TRequest extends Record<string, unknown> | URLSearchParams>(
+  makeRequest<TResponse>(
     baseParams: RequestBaseParams,
-    data?: TRequest,
+    data?: Record<string, unknown>,
     options?: Record<string, unknown>
   ): ResponseObject<TResponse>;
-  post<TResponse, TRequest extends Record<string, unknown>>(
+  post<TResponse>(
     url: string,
-    data: TRequest,
+    data: Record<string, unknown>,
     options?: Record<string, unknown>
   ): ResponseObject<TResponse>;
-  get<TResponse, TRequest extends URLSearchParams>(
+  get<TResponse>(
     url: string,
-    params?: TRequest,
+    params?: Record<string, unknown>,
     options?: Record<string, unknown>
   ): ResponseObject<TResponse>;
 }

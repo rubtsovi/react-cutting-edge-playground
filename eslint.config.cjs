@@ -12,6 +12,7 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
     'plugin:jsx-a11y/recommended',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
   ],
   overrides: [
     {
@@ -31,7 +32,7 @@ module.exports = {
     project: ['./tsconfig.json', './tsconfig.node.json'],
     tsconfigRootDir: __dirname,
   },
-  plugins: ['@typescript-eslint', 'react'],
+  plugins: ['@typescript-eslint', 'react', '@tanstack/query'],
   settings: {
     react: {
       version: 'detect',
@@ -45,5 +46,12 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/no-shadow': 'warn',
     'no-console': ['warn', { allow: ['warn', 'error'] }],
+    'react/jsx-curly-brace-presence': ['warn', { props: 'never', children: 'never', propElementValues: 'always' }],
+    'react/prop-types': 'off',
+    '@typescript-eslint/no-misused-promises': ['warn', {
+      'checksVoidReturn': {
+        'attributes': false,
+      }
+    }]
   },
 };
