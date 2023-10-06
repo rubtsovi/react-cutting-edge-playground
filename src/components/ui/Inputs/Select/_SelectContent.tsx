@@ -1,8 +1,9 @@
-import { Fragment, forwardRef } from 'react';
+import { Fragment, forwardRef, useState, useTransition } from 'react';
 
 import { FloatingPortal } from '@floating-ui/react';
 import { Listbox, ListboxOptionsProps, Transition } from '@headlessui/react';
 import * as ScrollablePrimitive from '@radix-ui/react-scroll-area';
+import { Loader2Icon } from 'lucide-react';
 
 import { useFloatingPopoverContext } from '_context/FloatingPopoverContext';
 import { useOnMount } from '_src/lib/hooks.ts';
@@ -16,6 +17,8 @@ function SelectContentInner(
 ) {
   const mounted = useOnMount();
   const { refs, floatingStyles, open, placement } = useFloatingPopoverContext();
+  const [listOpen, setListOpen] = useState(open);
+  const [, startTransition] = useTransition();
   const { horizontal } = useSelectContext();
 
   if (!mounted) {
@@ -34,9 +37,17 @@ function SelectContentInner(
           enter='transition duration-200'
           enterFrom='opacity-0 scale-90'
           enterTo='opacity-100 scale-100'
+          beforeEnter={() => {
+            startTransition(() => {
+              setListOpen(true);
+            });
+          }}
           leave='transition duration-200'
           leaveFrom='opacity-100 translate-y-0'
           leaveTo={`opacity-0 ${placement.includes('top') ? '-translate-y-6' : 'translate-y-6'}`}
+          afterLeave={() => {
+            setListOpen(false);
+          }}
           as={Fragment}
         >
           <Listbox.Options
@@ -50,32 +61,44 @@ function SelectContentInner(
             )}
             {...props}
           >
-            {bag => (
-              <ScrollablePrimitive.Root className='flex min-h-0 flex-grow-0 flex-col'>
-                <ScrollablePrimitive.Viewport>
-                  <div
-                    className={cn(
-                      'flex flex-col flex-wrap p-2 text-popover-foreground',
-                      {
-                        'flex-col gap-1': !horizontal,
-                        'flex-row gap-2': horizontal,
-                      },
-                      className
-                    )}
-                  >
-                    {typeof children === 'function' ? children(bag) : children}
-                  </div>
-                </ScrollablePrimitive.Viewport>
-                <ScrollablePrimitive.Scrollbar
-                  orientation='vertical'
-                  className={`flex w-3 origin-right scale-x-50 touch-none select-none bg-muted/20 
+            {bag => {
+              const renderedChildren = typeof children === 'function' ? children(bag) : children;
+              return (
+                <ScrollablePrimitive.Root className='flex min-h-0 flex-grow-0 flex-col'>
+                  <ScrollablePrimitive.Viewport>
+                    <div
+                      className={cn(
+                        'flex flex-col flex-wrap p-2 text-popover-foreground',
+                        {
+                          'flex-col gap-1': !horizontal,
+                          'flex-row gap-2': horizontal,
+                        },
+                        className
+                      )}
+                    >
+                      {listOpen ? (
+                        renderedChildren
+                      ) : (
+                        <div
+                          className='grid w-full place-content-center'
+                          style={{ height: `${window.innerHeight * 0.3333}px` }}
+                        >
+                          <Loader2Icon size={24} className='animate-spin text-primary' />
+                        </div>
+                      )}
+                    </div>
+                  </ScrollablePrimitive.Viewport>
+                  <ScrollablePrimitive.Scrollbar
+                    orientation='vertical'
+                    className={`flex w-3 origin-right scale-x-50 touch-none select-none bg-muted/20 
                   px-0.5 py-2 transition duration-100 ease-out
                   hover:scale-x-100 hover:bg-muted/50`}
-                >
-                  <ScrollablePrimitive.Thumb className='flex-1 rounded-full bg-primary' />
-                </ScrollablePrimitive.Scrollbar>
-              </ScrollablePrimitive.Root>
-            )}
+                  >
+                    <ScrollablePrimitive.Thumb className='flex-1 rounded-full bg-primary' />
+                  </ScrollablePrimitive.Scrollbar>
+                </ScrollablePrimitive.Root>
+              );
+            }}
           </Listbox.Options>
         </Transition>
       </div>

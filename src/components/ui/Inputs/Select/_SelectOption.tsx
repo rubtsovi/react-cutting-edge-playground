@@ -19,13 +19,14 @@ function SelectOptionInner<TOption extends FieldValues>(
       ref={ref}
       className={cn(
         `relative cursor-pointer select-none whitespace-nowrap transition
-      ui-disabled:pointer-events-none ui-disabled:cursor-not-allowed ui-disabled:opacity-50`,
+         ui-disabled:pointer-events-none ui-disabled:cursor-not-allowed ui-disabled:opacity-50`,
         className
       )}
       as={as ?? Fragment}
       {...props}
     >
       {bag => {
+        const renderedChildren = typeof children === 'function' ? children(bag) : children;
         if (horizontal) {
           return (
             <Badge
@@ -35,7 +36,7 @@ function SelectOptionInner<TOption extends FieldValues>(
                 'bg-primary/70': bag.active && bag.selected,
               })}
             >
-              {typeof children === 'function' ? children(bag) : children}
+              {renderedChildren}
             </Badge>
           );
         }
@@ -47,7 +48,7 @@ function SelectOptionInner<TOption extends FieldValues>(
                outline-none ui-selected:bg-accent ui-selected:text-primary
                ui-active:text-base ui-active:ui-not-selected:bg-input/40`}
           >
-            {typeof children === 'function' ? children(bag) : children}
+            {renderedChildren}
           </div>
         );
       }}

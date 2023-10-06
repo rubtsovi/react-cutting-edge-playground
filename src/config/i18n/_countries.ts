@@ -9,4 +9,18 @@ const countriesList = Object.entries(countriesListObj).map(([code, name]) => ({
   name,
 }));
 
+countriesList.sort(({ name: nameA }, { name: nameB }) => {
+  const normalizedA = nameA.toUpperCase();
+  const normalizedB = nameB.toUpperCase();
+  if (normalizedA < normalizedB) {
+    return -1;
+  }
+
+  if (normalizedA > normalizedB) {
+    return 1;
+  }
+
+  return 0;
+});
+
 export default countriesList;
