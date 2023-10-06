@@ -1,4 +1,3 @@
-import { Listbox } from '@headlessui/react';
 import { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
 
 import { CommonFieldProps, SelectFieldsCommonProps } from '_components/fields/models.ts';
@@ -7,12 +6,17 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '_components/ui/Form';
-import { Select, SelectContent, SelectOption, SelectTrigger } from '_components/ui/Inputs/Select';
+import {
+  Select,
+  SelectContent,
+  SelectLabel,
+  SelectOption,
+  SelectTrigger,
+} from '_components/ui/Inputs/Select';
 import ControlAddon from '_components/ui/Inputs/_ControlAddon.tsx';
-import { floatingLabelVariants, invalidInputVariants } from '_components/ui/Inputs/_variants.ts';
+import { invalidInputVariants } from '_components/ui/Inputs/_variants.ts';
 import { cn } from '_utils';
 
 type SelectFieldProps<
@@ -35,6 +39,8 @@ function SelectField<
   className,
   clearable,
   control,
+  horizontal,
+  selectContentProps,
   ...props
 }: SelectFieldProps<TFieldValues, TName, TOption>) {
   //
@@ -48,31 +54,32 @@ function SelectField<
         const selectedValue = options.find(v => v[valueProperty] === value);
         return (
           <FormItem className={cn(className, 'relative')}>
-            <Select onChange={onFieldChange} value={selectedValue ?? null} name={name}>
+            <Select
+              onChange={onFieldChange}
+              value={selectedValue ?? null}
+              name={name}
+              horizontal={horizontal}
+            >
               <div className='relative'>
                 <FormControl>
                   <SelectTrigger className={cn(invalid && invalidInputVariants())}>
                     {selectedValue ? selectedValue[labelProperty] : ' '}
                   </SelectTrigger>
                 </FormControl>
-                {label && (
-                  <Listbox.Label
-                    as={FormLabel}
-                    className={cn(
-                      floatingLabelVariants({ state: selectedValue ? 'floated' : 'idle' })
-                    )}
-                    {...labelProps}
-                  >
-                    {label}
-                  </Listbox.Label>
-                )}
+                {label && <SelectLabel {...labelProps}>{label}</SelectLabel>}
                 {clearable && (
                   <ControlAddon className='right-11'>
                     <ClearFieldButton />
                   </ControlAddon>
                 )}
                 <FormMessage className='px-6'>{helperText}</FormMessage>
-                <SelectContent>
+                <SelectContent
+                  {...selectContentProps}
+                  className={cn(
+                    { 'flex-col': !horizontal, 'flex-row flex-wrap': horizontal },
+                    selectContentProps?.className
+                  )}
+                >
                   {options.map(option => (
                     <SelectOption key={`${name}-option-${option[valueProperty]}`} value={option}>
                       {option[labelProperty]}

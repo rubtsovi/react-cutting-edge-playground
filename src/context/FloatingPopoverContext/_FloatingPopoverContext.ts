@@ -1,7 +1,12 @@
 import { createContext } from 'react';
 
-import { useFloatingPopover } from '_src/lib/hooks.ts';
+import { UseFloatingReturn } from '@floating-ui/react';
 
-const floatingPopoverContext = createContext<ReturnType<typeof useFloatingPopover> | null>(null);
+interface FloatingPopoverContextValue extends UseFloatingReturn {
+  modal?: boolean;
+  open: boolean;
+}
+
+const floatingPopoverContext = createContext<FloatingPopoverContextValue | null>(null);
 
 export default floatingPopoverContext;

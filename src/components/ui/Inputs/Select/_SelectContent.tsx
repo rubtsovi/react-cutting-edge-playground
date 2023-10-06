@@ -8,12 +8,16 @@ import { useFloatingPopoverContext } from '_context/FloatingPopoverContext';
 import { useOnMount } from '_src/lib/hooks.ts';
 import { cn } from '_utils';
 
+import { useSelectContext } from './_selectContext.ts';
+
 function SelectContentInner(
   { className, children, ...props }: Omit<ListboxOptionsProps<'div'>, 'static' | 'unmount'>,
   ref: React.ForwardedRef<React.ElementRef<typeof Listbox.Options>>
 ) {
   const mounted = useOnMount();
   const { refs, floatingStyles, open, placement } = useFloatingPopoverContext();
+  const { horizontal } = useSelectContext();
+
   if (!mounted) {
     return null;
   }
@@ -41,15 +45,24 @@ function SelectContentInner(
             as='div'
             className={cn(
               `form-input relative flex min-h-0 flex-grow-0 flex-col overflow-hidden rounded-xl
-            border border-input bg-popover p-0 shadow-sm
-            focus:border-input focus:ring-0 focus:ring-input`
+               border border-input bg-popover p-0 shadow-sm
+               focus:border-input focus:ring-0 focus:ring-input`
             )}
             {...props}
           >
             {bag => (
               <ScrollablePrimitive.Root className='flex min-h-0 flex-grow-0 flex-col'>
                 <ScrollablePrimitive.Viewport>
-                  <div className={cn('flex flex-col gap-1 p-2 text-popover-foreground', className)}>
+                  <div
+                    className={cn(
+                      'flex flex-col flex-wrap p-2 text-popover-foreground',
+                      {
+                        'flex-col gap-1': !horizontal,
+                        'flex-row gap-2': horizontal,
+                      },
+                      className
+                    )}
+                  >
                     {typeof children === 'function' ? children(bag) : children}
                   </div>
                 </ScrollablePrimitive.Viewport>

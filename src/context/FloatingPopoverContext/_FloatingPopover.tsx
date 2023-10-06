@@ -1,15 +1,23 @@
 import { useMemo } from 'react';
 
 import { Derivable } from '@floating-ui/core';
-import { UseFloatingOptions } from '@floating-ui/react';
-import { FlipOptions, autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/react-dom';
+import {
+  FlipOptions,
+  UseFloatingOptions,
+  autoUpdate,
+  flip,
+  offset,
+  shift,
+  useFloating,
+} from '@floating-ui/react';
 
 import FloatingPopoverContext from './_FloatingPopoverContext.ts';
 
 interface FloatingPopoverProviderProps
-  extends Pick<UseFloatingOptions, 'open' | 'middleware' | 'placement'> {
+  extends Pick<UseFloatingOptions, 'middleware' | 'placement'> {
   flipOptions?: FlipOptions | Derivable<FlipOptions>;
   modal?: boolean;
+  open: boolean;
 }
 
 function FloatingPopover({

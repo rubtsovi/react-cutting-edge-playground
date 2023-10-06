@@ -14,8 +14,9 @@ module.exports = {
       },
     },
     boxShadow: {
-      DEFAULT: '0 24px 24px hsla(var(--foreground) / 0.24)',
-      sm: '0 16px 16px hsla(var(--foreground) / 0.24)',
+      DEFAULT: '0 1.5rem 1.5rem hsla(var(--foreground) / 0.24)',
+      sm: '0 1rem 1rem hsla(var(--foreground) / 0.24)',
+      xs: '0 0.25rem 0.25rem hsla(var(--foreground) / 0.24)',
       none: '0 0 0 #0000',
     },
     fontSize: {

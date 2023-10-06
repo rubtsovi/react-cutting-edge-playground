@@ -1,4 +1,3 @@
-import { Listbox } from '@headlessui/react';
 import { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
 
 import { CommonFieldProps, SelectFieldsCommonProps } from '_components/fields/models.ts';
@@ -8,12 +7,17 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '_components/ui/Form';
-import { Select, SelectContent, SelectOption, SelectTrigger } from '_components/ui/Inputs/Select';
+import {
+  Select,
+  SelectContent,
+  SelectLabel,
+  SelectOption,
+  SelectTrigger,
+} from '_components/ui/Inputs/Select';
 import ControlAddon from '_components/ui/Inputs/_ControlAddon.tsx';
-import { floatingLabelVariants, invalidInputVariants } from '_components/ui/Inputs/_variants.ts';
+import { invalidInputVariants } from '_components/ui/Inputs/_variants.ts';
 import { cn } from '_utils';
 
 type MultiSelectFieldProps<
@@ -35,7 +39,9 @@ function MultiSelectField<
   helperText,
   className,
   clearable,
+  selectContentProps,
   control,
+  horizontal,
   ...props
 }: MultiSelectFieldProps<TFieldValues, TName, TOption>) {
   return (
@@ -50,7 +56,13 @@ function MultiSelectField<
           : [];
         return (
           <FormItem className={cn(className, 'relative')}>
-            <Select onChange={onFieldChange} name={name} value={selectedValues} multiple>
+            <Select
+              onChange={onFieldChange}
+              name={name}
+              value={selectedValues}
+              multiple
+              horizontal={horizontal}
+            >
               {({ value: selected }) => (
                 <div className='relative'>
                   <FormControl>
@@ -77,26 +89,14 @@ function MultiSelectField<
                         ))}
                     </SelectTrigger>
                   </FormControl>
-                  {label && (
-                    <Listbox.Label
-                      as={FormLabel}
-                      className={cn(
-                        floatingLabelVariants({
-                          state: selectedValues.length > 0 ? 'floated' : 'idle',
-                        })
-                      )}
-                      {...labelProps}
-                    >
-                      {label}
-                    </Listbox.Label>
-                  )}
+                  {label && <SelectLabel {...labelProps}>{label}</SelectLabel>}
                   {clearable && (
                     <ControlAddon className='right-11'>
                       <ClearFieldButton />
                     </ControlAddon>
                   )}
                   <FormMessage className='px-6'>{helperText}</FormMessage>
-                  <SelectContent>
+                  <SelectContent {...selectContentProps}>
                     {options.map(option => (
                       <SelectOption key={`${name}-option-${option[valueProperty]}`} value={option}>
                         {option[labelProperty]}
