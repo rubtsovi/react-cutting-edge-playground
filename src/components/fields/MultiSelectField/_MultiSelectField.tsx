@@ -38,7 +38,7 @@ function MultiSelectField<
   valueProperty,
   helperText,
   className,
-  clearable,
+  nullable,
   selectContentProps,
   control,
   horizontal,
@@ -90,7 +90,7 @@ function MultiSelectField<
                     </SelectTrigger>
                   </FormControl>
                   {label && <SelectLabel {...labelProps}>{label}</SelectLabel>}
-                  {clearable && (
+                  {nullable && (
                     <ControlAddon className='right-11'>
                       <ClearFieldButton />
                     </ControlAddon>

@@ -16,10 +16,7 @@ function ClearFieldButton({
 
   const onClearClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    if (onClick) {
-      onClick(e);
-      return;
-    }
+    onClick?.(e);
     resetField(name);
   };
 

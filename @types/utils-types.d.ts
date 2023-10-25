@@ -15,3 +15,7 @@ declare type KebabCase<
         : ''}${Lowercase<First>}`
     >
   : Prefix;
+
+declare type KeysByPrefix<T, Prefix extends string = ''> = keyof {
+  [Key in keyof T as Key extends `${Prefix}${string}` ? Key : never]: Key;
+};

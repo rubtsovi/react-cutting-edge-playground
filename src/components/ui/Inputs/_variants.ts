@@ -3,9 +3,9 @@ import { cva } from 'class-variance-authority';
 import { tw } from '_utils';
 
 export const commonInputVariants = cva(
-  tw`flex min-h-[3rem] w-full rounded-full border border-input bg-background px-6 py-3 
-  text-base leading-5 ring-0 ring-offset-input transition-shadow focus:border-input focus:ring-2
-  focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60`
+  tw`relative flex min-h-[3rem] w-full rounded-full border border-input bg-background px-6 
+  py-3 text-base leading-5 ring-0 ring-offset-input transition-shadow focus:border-input
+  focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60`
 );
 
 export const invalidInputVariants = cva(
@@ -13,14 +13,14 @@ export const invalidInputVariants = cva(
 );
 
 export const floatingLabelVariants = cva(
-  tw`absolute left-6 top-3 flex h-6 items-center transition-transform `,
+  tw`absolute left-6 top-3 flex h-6 origin-left items-center transition-transform`,
   {
     variants: {
       state: {
-        idle: tw`peer-placeholder-shown:translate-x-0 
+        idle: tw`cursor-pointer peer-placeholder-shown:translate-x-0
   peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:cursor-text
-  peer-focus:-translate-x-1 peer-focus:-translate-y-9 peer-focus:scale-85 peer-focus:cursor-default`,
-        floated: tw`-translate-x-1 -translate-y-9 scale-85 cursor-default`,
+  peer-focus:-translate-y-9 peer-focus:scale-85 peer-focus:cursor-default`,
+        floated: tw`-translate-y-9 scale-85 cursor-default`,
       },
     },
     defaultVariants: {

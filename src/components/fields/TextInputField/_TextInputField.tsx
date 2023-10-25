@@ -45,7 +45,7 @@ function TextInputField<
   inputProps,
   helperText,
   labelProps,
-  clearable,
+  nullable,
   ...props
 }: TextInputFieldProps<TFieldValues, TName>) {
   const [computedType, setComputedType] = useState<HTMLInputTypeAttribute>(
@@ -106,9 +106,9 @@ function TextInputField<
                   {label}
                 </FormLabel>
               )}
-              {!textarea && clearable && (
+              {!textarea && nullable && (
                 <ControlAddon className='right-2'>
-                  {clearable && <ClearFieldButton />}
+                  {nullable && <ClearFieldButton />}
                   {inputProps?.type === 'password' && (
                     <Button
                       variant='ghost'

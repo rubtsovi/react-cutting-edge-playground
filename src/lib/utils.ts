@@ -24,3 +24,8 @@ export function tw(twClasses: TemplateStringsArray) {
 export function assert(msg: string): never {
   throw new Error(msg);
 }
+
+/**
+ * Useful when Typescript expects a function to be passed, but we don't want to do anything
+ */
+export const noop = () => undefined;

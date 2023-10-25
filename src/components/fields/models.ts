@@ -9,7 +9,7 @@ export interface CommonFieldProps {
   labelProps?: React.ComponentProps<typeof FormLabel>;
   helperText?: string;
   className?: string;
-  clearable?: boolean;
+  nullable?: boolean;
   after?: React.ReactElement<Omit<React.ComponentProps<typeof ControlAddon>, 'position'>>;
 }
 

@@ -13,7 +13,6 @@ function SelectOptionInner<TOption extends FieldValues>(
   ref: React.ForwardedRef<React.ElementRef<typeof Listbox.Option>>
 ) {
   const { horizontal } = useSelectContext();
-
   return (
     <Listbox.Option
       ref={ref}
@@ -43,10 +42,10 @@ function SelectOptionInner<TOption extends FieldValues>(
 
         return (
           <div
-            className={`ui-active:ui-not:text-base  ui-selected:ui-active:shadow-xs flex  items-center 
-               rounded-md px-4 py-3 text-base font-bold text-foreground
-               outline-none ui-selected:bg-accent ui-selected:text-primary
-               ui-active:text-base ui-active:ui-not-selected:bg-input/40`}
+            className={`ui-active:ui-not:text-base  flex items-center rounded-md 
+               px-4 py-3 text-base font-bold text-foreground outline-none
+               ui-selected:bg-accent ui-selected:text-primary ui-active:text-base
+               ui-selected:ui-active:shadow-xs ui-active:ui-not-selected:bg-input/40`}
           >
             {renderedChildren}
           </div>

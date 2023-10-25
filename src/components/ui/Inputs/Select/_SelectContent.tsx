@@ -1,10 +1,11 @@
-import { Fragment, forwardRef, useState, useTransition } from 'react';
+import { forwardRef, useState, useTransition } from 'react';
 
 import { FloatingPortal } from '@floating-ui/react';
-import { Listbox, ListboxOptionsProps, Transition } from '@headlessui/react';
-import * as ScrollablePrimitive from '@radix-ui/react-scroll-area';
+import { Listbox, ListboxOptionsProps } from '@headlessui/react';
 import { Loader2Icon } from 'lucide-react';
 
+import AnimationDropdown from '_components/animations/AnimationDropdown';
+import Scrollable from '_components/ui/Scrollable';
 import { useFloatingPopoverContext } from '_context/FloatingPopoverContext';
 import { useOnMount } from '_src/lib/hooks.ts';
 import { cn } from '_utils';
@@ -16,8 +17,8 @@ function SelectContentInner(
   ref: React.ForwardedRef<React.ElementRef<typeof Listbox.Options>>
 ) {
   const mounted = useOnMount();
-  const { refs, floatingStyles, open, placement } = useFloatingPopoverContext();
-  const [listOpen, setListOpen] = useState(open);
+  const { refs, floatingStyles, open } = useFloatingPopoverContext();
+  const [menuOpen, setMenuOpen] = useState(open);
   const [, startTransition] = useTransition();
   const { horizontal } = useSelectContext();
 
@@ -32,23 +33,15 @@ function SelectContentInner(
         className={cn('relative z-50 flex flex-col')}
         style={floatingStyles}
       >
-        <Transition
+        <AnimationDropdown
           show={open}
-          enter='transition duration-200'
-          enterFrom='opacity-0 scale-90'
-          enterTo='opacity-100 scale-100'
-          beforeEnter={() => {
+          beforeEnter={() =>
             startTransition(() => {
-              setListOpen(true);
-            });
-          }}
-          leave='transition duration-200'
-          leaveFrom='opacity-100 translate-y-0'
-          leaveTo={`opacity-0 ${placement.includes('top') ? '-translate-y-6' : 'translate-y-6'}`}
-          afterLeave={() => {
-            setListOpen(false);
-          }}
-          as={Fragment}
+              setMenuOpen(true);
+            })
+          }
+          afterLeave={() => setMenuOpen(false)}
+          asChild
         >
           <Listbox.Options
             ref={ref}
@@ -64,43 +57,33 @@ function SelectContentInner(
             {bag => {
               const renderedChildren = typeof children === 'function' ? children(bag) : children;
               return (
-                <ScrollablePrimitive.Root className='flex min-h-0 flex-grow-0 flex-col'>
-                  <ScrollablePrimitive.Viewport>
-                    <div
-                      className={cn(
-                        'flex flex-col flex-wrap p-2 text-popover-foreground',
-                        {
-                          'flex-col gap-1': !horizontal,
-                          'flex-row gap-2': horizontal,
-                        },
-                        className
-                      )}
-                    >
-                      {listOpen ? (
-                        renderedChildren
-                      ) : (
-                        <div
-                          className='grid w-full place-content-center'
-                          style={{ height: `${window.innerHeight * 0.3333}px` }}
-                        >
-                          <Loader2Icon size={24} className='animate-spin text-primary' />
-                        </div>
-                      )}
-                    </div>
-                  </ScrollablePrimitive.Viewport>
-                  <ScrollablePrimitive.Scrollbar
-                    orientation='vertical'
-                    className={`flex w-3 origin-right scale-x-50 touch-none select-none bg-muted/20 
-                  px-0.5 py-2 transition duration-100 ease-out
-                  hover:scale-x-100 hover:bg-muted/50`}
+                <Scrollable>
+                  <div
+                    className={cn(
+                      'flex flex-col flex-wrap p-2 text-popover-foreground',
+                      {
+                        'flex-col gap-1': !horizontal,
+                        'flex-row gap-2': horizontal,
+                      },
+                      className
+                    )}
                   >
-                    <ScrollablePrimitive.Thumb className='flex-1 rounded-full bg-primary' />
-                  </ScrollablePrimitive.Scrollbar>
-                </ScrollablePrimitive.Root>
+                    {menuOpen ? (
+                      renderedChildren
+                    ) : (
+                      <div
+                        className='grid w-full place-content-center'
+                        style={{ height: `${window.innerHeight * 0.3333}px` }}
+                      >
+                        <Loader2Icon size={24} className='animate-spin text-primary' />
+                      </div>
+                    )}
+                  </div>
+                </Scrollable>
               );
             }}
           </Listbox.Options>
-        </Transition>
+        </AnimationDropdown>
       </div>
     </FloatingPortal>
   );
