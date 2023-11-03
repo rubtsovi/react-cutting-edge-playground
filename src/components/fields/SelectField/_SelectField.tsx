@@ -2,6 +2,12 @@ import { useCallback, useState } from 'react';
 
 import { UseComboboxStateChange } from 'downshift';
 import { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
+import {
+  SelectContent,
+  SelectLabel,
+  SelectOption,
+  SelectTrigger,
+} from 'src/components/ui/Inputs/Select';
 
 import { CommonFieldProps, SelectFieldsCommonProps } from '_components/fields/models.ts';
 import {
@@ -12,24 +18,22 @@ import {
   FormLabel,
   FormMessage,
 } from '_components/ui/Form';
-import {
-  SelectContent,
-  SelectLabel,
-  SelectOption,
-  SelectTrigger,
-} from '_components/ui/Inputs/DownshiftSelect';
 import { floatingLabelVariants, invalidInputVariants } from '_components/ui/Inputs/_variants.ts';
 import Typography from '_components/ui/Typography';
 import { cn } from '_utils';
 
 import {
-  SimpleAutocompleteSelectFieldItem,
-  SimpleSelectFieldItem,
+  AutocompleteSingleSelectFieldItem,
+  BasicSingleSelectFieldItem,
+  MultipleAutocompleteSelectFieldItem,
+  MultipleSelectFieldItem,
 } from './_SelectFieldStrategies.tsx';
 
 const SelectFieldStrategy = {
-  SIMPLE: SimpleSelectFieldItem,
-  SIMPLE_AUTOCOMPLETE: SimpleAutocompleteSelectFieldItem,
+  BASIC: BasicSingleSelectFieldItem,
+  BASIC_AUTOCOMPLETE: AutocompleteSingleSelectFieldItem,
+  MULTI: MultipleSelectFieldItem,
+  MULTI_AUTOCOMPLETE: MultipleAutocompleteSelectFieldItem,
 } as const;
 
 type SelectFieldProps<
@@ -59,7 +63,8 @@ function SelectField<
   control,
   horizontal,
   onInputValueChange,
-  strategy = 'SIMPLE',
+  strategy = 'BASIC',
+  selectContentProps,
   ...props
 }: SelectFieldProps<TFieldValues, TName, TOption>) {
   const [filteredItems, setFilteredItems] = useState(options);
@@ -82,17 +87,13 @@ function SelectField<
   return (
     <FormField
       control={control}
-      render={({ field: { value, onChange, name }, fieldState: { invalid } }) => {
-        const onFieldChange = (changeValue: TOption | null) => {
-          onChange(changeValue ? changeValue[valueProperty] : null);
-        };
-        const selectedValue = options.find(v => v[valueProperty] === value);
+      render={({ field: { name }, fieldState: { invalid } }) => {
         const SelectFieldItem = SelectFieldStrategy[strategy];
         return (
           <FormItem className={cn(className, 'relative')}>
             <SelectFieldItem
-              onChange={onFieldChange}
-              selected={selectedValue}
+              options={options}
+              valueGetter={item => (item ? (item[valueProperty] as string | number) : null)}
               items={filteredItems}
               labelGetter={item => (item ? String(item[labelProperty]) : '')}
               onBeforeMenuOpen={() => {
@@ -101,14 +102,14 @@ function SelectField<
               horizontal={horizontal}
               onInputValueChange={onInputValueChange ?? defaultAutocompleteFilter}
             >
-              {({ isOpen, selected, context: { selectItem } }) => (
+              {({ isOpen, actions, hasValue }) => (
                 <div className='relative'>
                   <FormControl>
                     <SelectTrigger
                       additionalControls={
-                        nullable ? <ClearFieldButton onClick={() => selectItem(null)} /> : null
+                        nullable ? <ClearFieldButton onClick={() => actions.reset()} /> : null
                       }
-                      className={cn({ [`${invalidInputVariants()}`]: invalid })}
+                      className={cn({ [`${invalidInputVariants()}`]: invalid, 'pr-20': nullable })}
                     />
                   </FormControl>
                   {label && (
@@ -118,7 +119,7 @@ function SelectField<
                       className={cn(
                         floatingLabelVariants({
                           state:
-                            selected ?? (strategy?.includes('AUTOCOMPLETE') && isOpen)
+                            hasValue || (strategy?.includes('AUTOCOMPLETE') && isOpen)
                               ? 'floated'
                               : 'idle',
                         })
@@ -128,16 +129,13 @@ function SelectField<
                     </SelectLabel>
                   )}
                   <FormMessage className='px-6'>{helperText}</FormMessage>
-                  <SelectContent>
+                  <SelectContent {...selectContentProps}>
                     {filteredItems.length > 0 ? (
                       filteredItems.map((item, index) => (
                         <SelectOption
                           key={`${name}-option-${item[valueProperty]}`}
                           item={item}
                           index={index}
-                          isSelected={
-                            selectedValue && selectedValue[valueProperty] === item[valueProperty]
-                          }
                         />
                       ))
                     ) : (

@@ -1,7 +1,7 @@
 import { FieldValues } from 'react-hook-form';
+import { SelectContent } from 'src/components/ui/Inputs/Select';
 
 import { FormLabel } from '_components/ui/Form';
-import { SelectContent } from '_components/ui/Inputs/Select';
 import ControlAddon from '_components/ui/Inputs/_ControlAddon.tsx';
 
 export interface CommonFieldProps {
@@ -17,6 +17,6 @@ export interface SelectFieldsCommonProps<TOption extends FieldValues> {
   options: TOption[];
   valueProperty: keyof TOption;
   labelProperty: keyof TOption;
-  selectContentProps?: React.ComponentProps<typeof SelectContent>;
+  selectContentProps?: Omit<React.ComponentPropsWithRef<typeof SelectContent>, 'children'>;
   horizontal?: boolean;
 }

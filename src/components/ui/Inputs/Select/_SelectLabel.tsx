@@ -1,28 +1,34 @@
-import { forwardRef } from 'react';
+import Label from '_components/ui/Label';
 
-import { Listbox } from '@headlessui/react';
+import { useSelectContext } from './_SelectContext.ts';
 
-import { FormLabel } from '_components/ui/Form';
-import { floatingLabelVariants } from '_components/ui/Inputs/_variants.ts';
-import { cn } from '_utils';
-
-import { useSelectContext } from './_selectContext.ts';
-
-function SelectLabelInner(
-  { className, ...props }: React.ComponentProps<typeof FormLabel>,
-  ref: React.ForwardedRef<React.ComponentRef<typeof FormLabel>>
-) {
-  const { hasValue } = useSelectContext();
-  return (
-    <Listbox.Label
-      as={FormLabel}
-      ref={ref}
-      className={cn(floatingLabelVariants({ state: hasValue ? 'floated' : 'idle' }), className)}
-      {...props}
-    />
-  );
+interface SelectLabelProps extends React.ComponentPropsWithRef<typeof Label> {
+  as?: React.ForwardRefExoticComponent<React.RefAttributes<HTMLLabelElement>>;
 }
 
-const SelectLabel = forwardRef(SelectLabelInner);
+function SelectLabel({
+  as,
+  children,
+  onClick,
+  ...props
+}: React.PropsWithChildren<SelectLabelProps>) {
+  const { getLabelProps, openMenu, autocomplete } = useSelectContext();
+  const Component = as ?? Label;
+  return (
+    <Component
+      {...getLabelProps({
+        ...props,
+        onClick(e: React.MouseEvent<HTMLLabelElement>) {
+          if (!autocomplete) {
+            openMenu();
+          }
+          onClick?.(e);
+        },
+      })}
+    >
+      {children}
+    </Component>
+  );
+}
 
 export default SelectLabel;

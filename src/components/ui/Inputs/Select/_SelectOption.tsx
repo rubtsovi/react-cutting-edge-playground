@@ -1,60 +1,69 @@
-import React, { Fragment, forwardRef } from 'react';
+import React from 'react';
 
-import { Listbox, ListboxOptionProps } from '@headlessui/react';
+import { GetItemPropsOptions } from 'downshift';
 import { FieldValues } from 'react-hook-form';
 
 import Badge from '_components/ui/Badge';
-import { cn } from '_utils';
+import { cn, tw } from '_utils';
 
-import { useSelectContext } from './_selectContext.ts';
+import { useSelectContext } from './_SelectContext.ts';
 
-function SelectOptionInner<TOption extends FieldValues>(
-  { className, as, children, ...props }: ListboxOptionProps<'ul', TOption>,
-  ref: React.ForwardedRef<React.ElementRef<typeof Listbox.Option>>
-) {
-  const { horizontal } = useSelectContext();
+type SelectOptionProps<TOption extends FieldValues> = Omit<
+  GetItemPropsOptions<TOption>,
+  keyof React.HTMLProps<HTMLElement> | 'isSelected'
+>;
+
+function SelectOption<T extends FieldValues = FieldValues>({
+  index,
+  ...itemProps
+}: SelectOptionProps<T>) {
+  const selectContextValue = useSelectContext<T>();
+  const label = selectContextValue.labelGetter?.(itemProps.item);
+  let isOptionSelected: boolean;
+  if (selectContextValue.multiple) {
+    isOptionSelected = selectContextValue.selectedItems.includes(itemProps.item);
+  } else {
+    isOptionSelected = selectContextValue.selectedItem === itemProps.item;
+  }
   return (
-    <Listbox.Option
-      ref={ref}
-      className={cn(
-        `relative cursor-pointer select-none whitespace-nowrap transition
-         ui-disabled:pointer-events-none ui-disabled:cursor-not-allowed ui-disabled:opacity-50`,
-        className
-      )}
-      as={as ?? Fragment}
-      {...props}
+    <div
+      {...selectContextValue.getItemProps({
+        ...itemProps,
+        onClick() {
+          if (isOptionSelected && selectContextValue.multiple) {
+            selectContextValue.removeSelectedItem(itemProps.item);
+          }
+        },
+      })}
     >
-      {bag => {
-        const renderedChildren = typeof children === 'function' ? children(bag) : children;
-        if (horizontal) {
-          return (
-            <Badge
-              variant={bag.selected ? 'default' : 'outline'}
-              className={cn('border', {
-                'bg-primary/10': bag.active && !bag.selected,
-                'bg-primary/70': bag.active && bag.selected,
-              })}
-            >
-              {renderedChildren}
-            </Badge>
-          );
-        }
-
-        return (
-          <div
-            className={`ui-active:ui-not:text-base  flex items-center rounded-md 
-               px-4 py-3 text-base font-bold text-foreground outline-none
-               ui-selected:bg-accent ui-selected:text-primary ui-active:text-base
-               ui-selected:ui-active:shadow-xs ui-active:ui-not-selected:bg-input/40`}
-          >
-            {renderedChildren}
-          </div>
-        );
-      }}
-    </Listbox.Option>
+      {selectContextValue.horizontal ? (
+        <Badge
+          variant={isOptionSelected ? 'default' : 'outline'}
+          className={cn('cursor-pointer border hover:bg-primary/10', {
+            'bg-primary/10': selectContextValue.highlightedIndex === index && !isOptionSelected,
+            'bg-primary/70 text-white':
+              selectContextValue.highlightedIndex === index && isOptionSelected,
+            'text-white hover:bg-primary/70': isOptionSelected,
+          })}
+        >
+          {label}
+        </Badge>
+      ) : (
+        <div
+          className={cn(
+            tw`relative cursor-pointer select-none whitespace-nowrap transition`,
+            tw`flex items-center rounded-md px-4 py-3 text-base font-bold text-foreground outline-none`,
+            {
+              [tw`bg-accent text-primary`]: isOptionSelected,
+              [tw`bg-input/40`]: selectContextValue.highlightedIndex === index,
+            }
+          )}
+        >
+          {label}
+        </div>
+      )}
+    </div>
   );
 }
-
-const SelectOption = forwardRef(SelectOptionInner);
 
 export default SelectOption;

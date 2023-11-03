@@ -27,7 +27,7 @@ function BadgeInner(
           size='icon-sm'
           className={cn(
             {
-              '-my-1 -mr-5 ml-1 h-6 w-6': !size || size === 'default',
+              '-mr-5 ml-1 h-5 w-5': !size || size === 'default',
               '-mr-2.5 ml-1 h-5 w-5': size === 'sm',
               'hover:bg-destructive/10 hover:text-inherit': variant === 'outline-destructive',
               'hover:bg-secondary/10 hover:text-inherit': variant === 'outline-secondary',
@@ -39,6 +39,7 @@ function BadgeInner(
             e.stopPropagation();
             onRemoveClick(e);
           }}
+          type='button'
         >
           <XIcon size={12} />
         </Button>

@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 import { tw } from '_utils';
 
 export const commonInputVariants = cva(
-  tw`relative flex min-h-[3rem] w-full rounded-full border border-input bg-background px-6 
+  tw`relative flex min-h-[3rem] w-full rounded-3xl border border-input bg-background px-6 
   py-3 text-base leading-5 ring-0 ring-offset-input transition-shadow focus:border-input
   focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-60`
 );
