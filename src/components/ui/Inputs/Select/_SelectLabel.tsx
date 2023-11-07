@@ -1,6 +1,6 @@
 import Label from '_components/ui/Label';
 
-import { useSelectContext } from './_SelectContext.ts';
+import { useSelectContext } from './_Select.context.ts';
 
 interface SelectLabelProps extends React.ComponentPropsWithRef<typeof Label> {
   as?: React.ForwardRefExoticComponent<React.RefAttributes<HTMLLabelElement>>;

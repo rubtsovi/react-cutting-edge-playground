@@ -1,6 +1,6 @@
 import { forwardRef, useId } from 'react';
 
-import { FormItemContext } from '_components/ui/Form/_contexts.ts';
+import { FormItemContext } from '_components/ui/Form/_Form.context.ts';
 import { cn } from '_utils';
 
 interface FormItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {

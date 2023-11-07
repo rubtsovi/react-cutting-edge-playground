@@ -8,7 +8,7 @@ import Scrollable from '_components/ui/Scrollable';
 import { useFloatingPopoverContext } from '_context/FloatingPopoverContext';
 import { cn } from '_utils';
 
-import { useSelectContext } from './_SelectContext.ts';
+import { useSelectContext } from './_Select.context.ts';
 
 function SelectContent({
   className,

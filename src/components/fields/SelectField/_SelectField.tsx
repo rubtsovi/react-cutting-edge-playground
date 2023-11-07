@@ -18,7 +18,10 @@ import {
   FormLabel,
   FormMessage,
 } from '_components/ui/Form';
-import { floatingLabelVariants, invalidInputVariants } from '_components/ui/Inputs/_variants.ts';
+import {
+  floatingLabelVariants,
+  invalidInputVariants,
+} from '_components/ui/Inputs/_Inputs.variants.ts';
 import Typography from '_components/ui/Typography';
 import { cn } from '_utils';
 
@@ -27,7 +30,7 @@ import {
   BasicSingleSelectFieldItem,
   MultipleAutocompleteSelectFieldItem,
   MultipleSelectFieldItem,
-} from './_SelectFieldStrategies.tsx';
+} from './_SelectField.strategies.tsx';
 
 const SelectFieldStrategy = {
   BASIC: BasicSingleSelectFieldItem,
@@ -84,6 +87,7 @@ function SelectField<
     },
     [labelProperty, options]
   );
+
   return (
     <FormField
       control={control}

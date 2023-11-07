@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 
 import { Slot } from '@radix-ui/react-slot';
 
-import { useFormField } from './_hooks.ts';
+import { useFormField } from './_Form.hooks.ts';
 
 function FormControlInner(
   { ...props }: React.ComponentPropsWithoutRef<typeof Slot>,

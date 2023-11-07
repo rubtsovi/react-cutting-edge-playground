@@ -8,4 +8,4 @@ export { default as FormItem } from './_FormItem.tsx';
 export { default as FormLabel } from './_FormLabel.tsx';
 export { default as FormMessage } from './_FormMessage.tsx';
 
-export * from './_hooks.ts';
+export * from './_Form.hooks.ts';

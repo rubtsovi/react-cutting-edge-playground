@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import { cn } from '_utils';
 
-import { commonInputVariants } from './_variants.ts';
+import { commonInputVariants } from './_Inputs.variants.ts';
 
 function TextareaInner(
   { className, ...props }: React.ComponentPropsWithoutRef<typeof TextareaAutosize>,

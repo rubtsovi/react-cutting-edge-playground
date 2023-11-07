@@ -6,7 +6,7 @@ import { XIcon } from 'lucide-react';
 import Button from '_components/ui/Button';
 import { cn } from '_utils';
 
-import badgeVariants from './_badgeVariants.ts';
+import badgeVariants from './_Badge.variants.ts';
 
 interface BadgeProps
   extends VariantProps<typeof badgeVariants>,

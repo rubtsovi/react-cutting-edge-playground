@@ -6,13 +6,13 @@ import ControlAddon from '_components/ui/Inputs/_ControlAddon.tsx';
 import SelectOpenIndicator from '_components/ui/Inputs/_SelectOpenIndicator.tsx';
 import { useFloatingPopoverContext } from '_context/FloatingPopoverContext';
 
-import { useSelectContext } from './_SelectContext.ts';
+import { useSelectContext } from './_Select.context.ts';
 import {
   AutocompleteMultipleSelectTrigger,
   AutocompleteSingleSelectTrigger,
   BasicMultipleSelectTrigger,
   BasicSingleSelectTrigger,
-} from './_SelectTriggerStrategies.tsx';
+} from './_SelectTrigger.strategies.tsx';
 
 interface SelectTriggerProps {
   additionalControls?: React.ReactNode;

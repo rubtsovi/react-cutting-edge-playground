@@ -11,7 +11,7 @@ import { FieldValues } from 'react-hook-form';
 
 import { FloatingPopover } from '_context/FloatingPopoverContext';
 
-import { selectContext as SelectContext } from './_SelectContext.ts';
+import { selectContext as SelectContext } from './_Select.context.ts';
 
 type RenderSelectChildrenFn<T extends FieldValues> = (bag: {
   isOpen: boolean;

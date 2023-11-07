@@ -2,10 +2,10 @@ import { FieldValues } from 'react-hook-form';
 
 import Badge from '_components/ui/Badge';
 import { TextInput } from '_components/ui/Inputs';
-import { commonInputVariants } from '_components/ui/Inputs/_variants.ts';
+import { commonInputVariants } from '_components/ui/Inputs/_Inputs.variants.ts';
 import { cn } from '_utils';
 
-import { useSelectContext } from './_SelectContext.ts';
+import { useSelectContext } from './_Select.context.ts';
 
 interface SelectTriggerStrategyProps {
   className?: string;

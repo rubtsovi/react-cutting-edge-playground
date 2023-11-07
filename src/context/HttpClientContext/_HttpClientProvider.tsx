@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { IHttpClient } from '_models/httpClient.ts';
 
-import HttpClientContext from './_HttpClientContext.ts';
+import HttpClientContext from './_HttpClient.context.ts';
 
 interface IHttpClientProviderProps {
   client: IHttpClient;

@@ -6,7 +6,7 @@ import { FieldValues } from 'react-hook-form';
 import Badge from '_components/ui/Badge';
 import { cn, tw } from '_utils';
 
-import { useSelectContext } from './_SelectContext.ts';
+import { useSelectContext } from './_Select.context.ts';
 
 type SelectOptionProps<TOption extends FieldValues> = Omit<
   GetItemPropsOptions<TOption>,

@@ -5,7 +5,7 @@ import { VariantProps } from 'class-variance-authority';
 
 import { cn } from '_utils';
 
-import variants from './_variants.ts';
+import variants from './_Typography.variants.ts';
 
 interface HeadingProps
   extends React.HTMLAttributes<HTMLHeadingElement>,

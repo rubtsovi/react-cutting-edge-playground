@@ -16,7 +16,10 @@ import {
 import { TextInput } from '_components/ui/Inputs';
 import { Textarea } from '_components/ui/Inputs';
 import ControlAddon from '_components/ui/Inputs/_ControlAddon.tsx';
-import { floatingLabelVariants, invalidInputVariants } from '_components/ui/Inputs/_variants.ts';
+import {
+  floatingLabelVariants,
+  invalidInputVariants,
+} from '_components/ui/Inputs/_Inputs.variants.ts';
 import { cn, tw } from '_utils';
 
 type TextInputFieldProps<

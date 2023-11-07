@@ -4,7 +4,7 @@ import { VariantProps } from 'class-variance-authority';
 
 import { cn } from '_utils';
 
-import cardVariants from './_variants.ts';
+import cardVariants from './_Card.variants.ts';
 
 function CardInner(
   {

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import HttpClientContext from '_src/context/HttpClientContext/_HttpClientContext.ts';
+import HttpClientContext from '_context/HttpClientContext/_HttpClient.context.ts';
 
 function useHttpClientContext() {
   const context = useContext(HttpClientContext);

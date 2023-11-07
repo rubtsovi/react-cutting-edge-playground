@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { assert } from '_utils';
 
-import floatingPopoverContext from './_FloatingPopoverContext.ts';
+import floatingPopoverContext from './_FloatingPopover.context.ts';
 
 function useFloatingPopoverContext() {
   return (

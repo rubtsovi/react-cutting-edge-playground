@@ -11,7 +11,7 @@ import {
   useFloating,
 } from '@floating-ui/react';
 
-import FloatingPopoverContext from './_FloatingPopoverContext.ts';
+import FloatingPopoverContext from './_FloatingPopover.context.ts';
 
 interface FloatingPopoverProviderProps
   extends Pick<UseFloatingOptions, 'middleware' | 'placement'> {

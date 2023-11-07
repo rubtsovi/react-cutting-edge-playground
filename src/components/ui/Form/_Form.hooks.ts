@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { assert } from '_utils';
 
-import { FormFieldContext, FormItemContext } from './_contexts.ts';
+import { FormFieldContext, FormItemContext } from './_Form.context.ts';
 
 export const useFormFieldContext = () =>
   useContext(FormFieldContext) ?? assert('useFormFieldContext should be used withing <FormField>');

@@ -5,7 +5,7 @@ import * as LabelPrimitive from '@radix-ui/react-label';
 import Label from '_components/ui/Label';
 import { cn } from '_utils';
 
-import { useFormField } from './_hooks.ts';
+import { useFormField } from './_Form.hooks.ts';
 
 function FormLabelInner(
   { className, ...props }: React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>,

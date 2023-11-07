@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import { commonInputVariants } from '_components/ui/Inputs/_variants.ts';
+import { commonInputVariants } from '_components/ui/Inputs/_Inputs.variants.ts';
 import { cn } from '_utils';
 
 function TextInputInner(
