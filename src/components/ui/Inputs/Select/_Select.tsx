@@ -30,7 +30,6 @@ interface SelectProps<TOption extends FieldValues, IsMultiple extends boolean | 
   labelGetter: (item: TOption | null) => string;
   valueGetter: (item: TOption | null) => string | number | null;
   autocomplete?: boolean;
-  horizontal?: boolean;
   children: React.ReactNode | RenderSelectChildrenFn<TOption>;
   multiple?: IsMultiple;
   multipleData?: IsMultiple extends true ? UseMultipleSelectionReturnValue<TOption> : never;
@@ -45,8 +44,8 @@ function Select<T extends FieldValues = FieldValues, U extends boolean | undefin
   autocomplete,
   multiple,
   multipleData,
-  horizontal,
   selectData,
+  items,
 }: SelectProps<T, U>) {
   return (
     <SelectContext.Provider
@@ -57,7 +56,7 @@ function Select<T extends FieldValues = FieldValues, U extends boolean | undefin
         labelGetter,
         valueGetter,
         autocomplete,
-        horizontal,
+        items,
       }}
     >
       <FloatingPopover

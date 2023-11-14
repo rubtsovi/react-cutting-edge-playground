@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 
+import { VirtualItem } from '@tanstack/react-virtual';
 import { UseComboboxStateChange } from 'downshift';
 import { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
 import {
@@ -9,7 +10,7 @@ import {
   SelectTrigger,
 } from 'src/components/ui/Inputs/Select';
 
-import { CommonFieldProps, SelectFieldsCommonProps } from '_components/fields/models.ts';
+import { CommonFieldProps } from '_components/fields/models.ts';
 import {
   ClearFieldButton,
   FormControl,
@@ -46,8 +47,12 @@ type SelectFieldProps<
 > = {
   strategy?: keyof typeof SelectFieldStrategy;
   onInputValueChange?: (changes: UseComboboxStateChange<TOption>) => void;
-} & SelectFieldsCommonProps<TOption> &
-  UseControllerProps<TFieldValues, TName> &
+  options: TOption[];
+  valueProperty: keyof TOption;
+  labelProperty: keyof TOption;
+  selectContentProps?: Omit<React.ComponentPropsWithRef<typeof SelectContent>, 'children'>;
+  renderOption?: (item: TOption, index: number) => React.ReactNode;
+} & UseControllerProps<TFieldValues, TName> &
   CommonFieldProps;
 
 function SelectField<
@@ -64,10 +69,10 @@ function SelectField<
   className,
   nullable,
   control,
-  horizontal,
   onInputValueChange,
   strategy = 'BASIC',
   selectContentProps,
+  renderOption,
   ...props
 }: SelectFieldProps<TFieldValues, TName, TOption>) {
   const [filteredItems, setFilteredItems] = useState(options);
@@ -91,7 +96,7 @@ function SelectField<
   return (
     <FormField
       control={control}
-      render={({ field: { name }, fieldState: { invalid } }) => {
+      render={({ fieldState: { invalid } }) => {
         const SelectFieldItem = SelectFieldStrategy[strategy];
         return (
           <FormItem className={cn(className, 'relative')}>
@@ -103,7 +108,6 @@ function SelectField<
               onBeforeMenuOpen={() => {
                 setFilteredItems(options);
               }}
-              horizontal={horizontal}
               onInputValueChange={onInputValueChange ?? defaultAutocompleteFilter}
             >
               {({ isOpen, actions, hasValue }) => (
@@ -133,19 +137,39 @@ function SelectField<
                     </SelectLabel>
                   )}
                   <FormMessage className='px-6'>{helperText}</FormMessage>
-                  <SelectContent {...selectContentProps}>
-                    {filteredItems.length > 0 ? (
-                      filteredItems.map((item, index) => (
-                        <SelectOption
-                          key={`${name}-option-${item[valueProperty]}`}
-                          item={item}
-                          index={index}
-                        />
-                      ))
-                    ) : (
-                      <Typography className='py-6 text-center'>No results</Typography>
-                    )}
-                  </SelectContent>
+                  {!renderOption ? (
+                    <SelectContent {...selectContentProps} virtualized>
+                      {(virtualItems: VirtualItem[]) =>
+                        virtualItems.length > 0 ? (
+                          virtualItems.map(({ key, index, size, start }) => (
+                            <SelectOption
+                              item={filteredItems[index]}
+                              index={index}
+                              key={key}
+                              style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: `${size}px`,
+                                transform: `translateY(${start}px)`,
+                              }}
+                            />
+                          ))
+                        ) : (
+                          <Typography className='py-6 text-center'>No results</Typography>
+                        )
+                      }
+                    </SelectContent>
+                  ) : (
+                    <SelectContent {...selectContentProps} virtualized={false}>
+                      {filteredItems.length === 0 ? (
+                        <Typography className='py-6 text-center'>No results</Typography>
+                      ) : (
+                        filteredItems.map(renderOption)
+                      )}
+                    </SelectContent>
+                  )}
                 </div>
               )}
             </SelectFieldItem>

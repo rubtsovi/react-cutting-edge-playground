@@ -1,3 +1,5 @@
+import React, { forwardRef } from 'react';
+
 import * as ScrollablePrimitive from '@radix-ui/react-scroll-area';
 
 import { cn } from '_utils';
@@ -7,19 +9,16 @@ interface ScrollableProps extends Omit<ScrollablePrimitive.ScrollAreaProps, 'asC
   axis?: 'x' | 'y' | 'both';
 }
 
-function Scrollable({
-  className,
-  children,
-  scrollbarForceMount,
-  axis = 'y',
-  ...props
-}: ScrollableProps) {
+function ScrollableInner(
+  { className, children, scrollbarForceMount, axis = 'y', ...props }: ScrollableProps,
+  ref: React.ForwardedRef<ScrollablePrimitive.ScrollAreaViewportElement>
+) {
   return (
     <ScrollablePrimitive.Root
       className={cn('flex min-h-0 flex-grow-0 flex-col', className)}
       {...props}
     >
-      <ScrollablePrimitive.Viewport>{children}</ScrollablePrimitive.Viewport>
+      <ScrollablePrimitive.Viewport ref={ref}>{children}</ScrollablePrimitive.Viewport>
       {(axis === 'y' || axis === 'both') && (
         <ScrollablePrimitive.Scrollbar
           orientation='vertical'
@@ -45,5 +44,7 @@ function Scrollable({
     </ScrollablePrimitive.Root>
   );
 }
+
+const Scrollable = forwardRef(ScrollableInner);
 
 export default Scrollable;

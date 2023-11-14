@@ -2,6 +2,8 @@ declare type EnumLikeValues<T> = T[keyof T];
 
 declare type NotEmptyArray<T> = [T, ...T[]];
 
+declare type ArrayItem<T> = T extends (infer I)[] ? I : never;
+
 declare type KebabCase<
   T extends string,
   Prefix extends string = '',

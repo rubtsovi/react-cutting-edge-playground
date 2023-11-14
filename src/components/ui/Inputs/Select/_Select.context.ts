@@ -16,7 +16,7 @@ type SelectContextValue<
 > = {
   labelGetter: (item: TOption | null) => string;
   valueGetter: (item: TOption | null) => string | number | null;
-  horizontal?: boolean;
+  items: TOption[];
 } & (
   | ({
       autocomplete: true;
