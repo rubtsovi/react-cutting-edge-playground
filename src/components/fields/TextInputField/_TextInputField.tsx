@@ -109,7 +109,7 @@ function TextInputField<
                   {label}
                 </FormLabel>
               )}
-              {!textarea && nullable && (
+              {!textarea && (
                 <ControlAddon className='right-2'>
                   {nullable && <ClearFieldButton />}
                   {inputProps?.type === 'password' && (

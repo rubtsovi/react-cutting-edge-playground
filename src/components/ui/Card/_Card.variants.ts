@@ -5,7 +5,7 @@ import { tw } from '_utils';
 const cardVariants = cva('rounded-lg text-card-foreground', {
   variants: {
     variant: {
-      contained: tw`border-none bg-card`,
+      contained: tw`border-none bg-card/30`,
       outlined: tw`border-2 border-card bg-background`,
     },
     shadow: {
