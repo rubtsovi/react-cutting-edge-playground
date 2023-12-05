@@ -26,13 +26,19 @@ function ButtonInner(
     children,
     loading = false,
     asChild = false,
+    disabled,
     ...props
   }: ButtonProps,
   ref: React.ForwardedRef<HTMLButtonElement>
 ) {
   const Comp = asChild ? Slot : 'button';
   return (
-    <Comp className={cn(buttonVariants({ variant, size, shadow }), className)} ref={ref} {...props}>
+    <Comp
+      className={cn(buttonVariants({ variant, size, shadow }), className)}
+      ref={ref}
+      disabled={loading || disabled}
+      {...props}
+    >
       &nbsp;
       <FadeAnimation show={!loading}>{children}</FadeAnimation>
       &nbsp;

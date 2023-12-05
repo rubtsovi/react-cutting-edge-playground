@@ -29,3 +29,13 @@ export function assert(msg: string): never {
  * Useful when Typescript expects a function to be passed, but we don't want to do anything
  */
 export const noop = () => undefined;
+
+/**
+ * Executes a delay and returns specified data after the delay has completed.
+ */
+export const wait = <TReturn>({ dataToReturn, delay }: { delay?: number; dataToReturn: TReturn }) =>
+  new Promise<TReturn>(resolve => {
+    setTimeout(() => {
+      resolve(dataToReturn);
+    }, delay ?? 1000);
+  });
