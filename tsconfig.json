@@ -24,6 +24,8 @@
     /* Paths */
     "baseUrl": ".",
     "paths": {
+      "_routes/*": ["src/router/routes/*"],
+      "_features/*": ["src/features/*"],
       "_components/*": ["src/components/*"],
       "_utils": ["src/lib/utils.ts"],
       "_context/*": ["src/context/*"],

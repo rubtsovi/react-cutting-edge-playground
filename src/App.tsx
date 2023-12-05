@@ -2,20 +2,24 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { RouterProvider } from '@tanstack/react-router';
 
-import { Card, CardContent, CardHeader, CardTitle } from '_components/ui/Card';
-import initHttpClient, { FetchApiClient } from '_config/httpClient';
+import httpClient from '_config/httpClient';
 import queryClient from '_config/queryClient';
 import HttpClientProvider from '_context/HttpClientContext';
-import TestForm from '_src/TestForm.tsx';
-
-const httpClient = initHttpClient(FetchApiClient);
+import router from '_src/router';
 
 const ReactQueryDevToolsStaging = lazy(() =>
-  import('@tanstack/react-query-devtools/build/lib/index.prod.js').then(d => ({
+  import('@tanstack/react-query-devtools/build/modern/production.js').then(d => ({
     default: d.ReactQueryDevtools,
   }))
 );
+
+/*const TanStackRouterDevToolsStaging = lazy(() =>
+  import('@tanstack/router-devtools').then(d => ({
+    default: d.TanStackRouterDevtools,
+  }))
+);*/
 
 function App() {
   const [showDevTools, setShowDevTools] = useState(false);
@@ -26,7 +30,8 @@ function App() {
     <>
       <HttpClientProvider client={httpClient}>
         <QueryClientProvider client={queryClient}>
-          <div className='container max-w-2xl py-20'>
+          <RouterProvider router={router} />
+          {/*<div className='container max-w-2xl py-20'>
             <Card>
               <CardHeader className='justify-center'>
                 <CardTitle>Type your data</CardTitle>
@@ -35,11 +40,12 @@ function App() {
                 <TestForm />
               </CardContent>
             </Card>
-          </div>
-          <ReactQueryDevtools />
+          </div>*/}
+          <ReactQueryDevtools buttonPosition='bottom-left' position='bottom' />
           {import.meta.env.PROD && import.meta.env.MODE === 'staging' && showDevTools && (
             <Suspense fallback={null}>
               <ReactQueryDevToolsStaging />
+              {/*<TanStackRouterDevToolsStaging router={router} />*/}
             </Suspense>
           )}
         </QueryClientProvider>

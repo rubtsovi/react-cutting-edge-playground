@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,37 +6,41 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 210 25% 43%;
+    --black: 0 0% 13%;
+    --white: 0 0% 100%;
+    --light-gray: 0 0% 74%;
 
-    --card: 210 31% 95%;
-    --card-foreground: 210 25% 43%;
+    --background: var(--white);
+    --foreground: var(--black);
+
+    --card: 0 0% 74%;
+    --card-foreground: var(--foreground);
  
-    --popover: 0 0% 100%;
+    --popover: var(--white);
     --popover-foreground: 222.2 84% 4.9%;
  
-    --primary: 205 100% 51%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 231 48% 48%;
+    --primary-foreground: var(--white);
+    --primary-dark: 232 51% 41%;
+    --primary-light: 232 45% 84%;
  
     --secondary: 210 25% 43%;
     --secondary-foreground: 0 0% 100%;
  
-    --muted: 210 20% 69%;
-    --muted-foreground: 0 0% 100%;
+    --muted: 0 0% 46%;
+    --muted-foreground: var(--white);
  
-    --accent: 206 100% 96%;
-    --accent-foreground: 205 100% 51%;
+    --accent: 88 50% 53%;
+    --accent-foreground: var(--white);
  
-    --destructive: 334 100% 50%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 358 65% 46%;
+    --destructive-foreground: var(--white);
 
-    --border: 210 31% 95%;
+    --border: 0 0% 74%;
     --input: 208 19% 87%;
     --ring: 222.2 84% 4.9%;
  
     --radius: 0.5rem;
-
-    --black: 251 31% 14%;
   }
  
   .dark {

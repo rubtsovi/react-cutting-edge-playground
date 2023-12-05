@@ -1,7 +1,10 @@
 import { IHttpClient, RequestBaseParams, ResponseObject } from '_models/httpClient.ts';
 
 class FetchApiClient implements IHttpClient {
-  constructor(private _baseUrl: string) {}
+  constructor(
+    private _baseUrl: string,
+    private _token: string | null = null
+  ) {}
 
   private _handleGetParams(params: URLSearchParams, data: Record<string, unknown>) {
     Object.entries(data).forEach(([key, value]) => {
@@ -40,6 +43,11 @@ class FetchApiClient implements IHttpClient {
     }
   }
 
+  public setAuthToken(token: string | null) {
+    this._token = token;
+    return this;
+  }
+
   public makeRequest<TResponse>(
     { url, method }: RequestBaseParams,
     data?: Record<string, unknown>
@@ -49,16 +57,23 @@ class FetchApiClient implements IHttpClient {
     if (method === 'get') {
       this._handleGetParams(requestUrl.searchParams, data ?? {});
     }
+
     const response = fetch(requestUrl, {
       method,
       headers: {
         'Content-Type': 'application/json',
+        ...(this._token ? { Authorization: `Bearer ${this._token}` } : {}),
       },
       signal: abortController.signal,
       body: method === 'get' ? undefined : JSON.stringify(data),
     });
     return {
-      response: response.then(r => r.json()) as Promise<TResponse>,
+      response: response.then(r => {
+        if (r.ok) {
+          return r.json();
+        }
+        throw new Error('401');
+      }) as Promise<TResponse>,
       abortController: abortController,
     };
   }

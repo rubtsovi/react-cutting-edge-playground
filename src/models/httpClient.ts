@@ -31,6 +31,7 @@ export interface IHttpClient {
     params?: Record<string, unknown>,
     options?: Record<string, unknown>
   ): ResponseObject<TResponse>;
+  setAuthToken(token: string | null): IHttpClient;
 }
 
-export type HttpClientFactory = new (baseUrl: string) => IHttpClient;
+export type HttpClientFactory = new (baseUrl: string, token: string | null) => IHttpClient;
