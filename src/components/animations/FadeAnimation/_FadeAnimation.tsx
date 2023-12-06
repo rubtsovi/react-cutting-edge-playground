@@ -9,7 +9,7 @@ function FadeAnimation({ asChild, ...props }: CommonAnimationProps) {
     <Transition
       {...props}
       appear
-      enter='transition duration-300'
+      enter='transition duration-200'
       enterFrom='opacity-0 scale-75'
       enterTo='opacity-100 scale-100'
       leave='transition duration-200'

@@ -1,5 +1,6 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 
+import { Provider as TooltipProvider } from '@radix-ui/react-tooltip';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider } from '@tanstack/react-router';
@@ -30,17 +31,9 @@ function App() {
     <>
       <HttpClientProvider client={httpClient}>
         <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-          {/*<div className='container max-w-2xl py-20'>
-            <Card>
-              <CardHeader className='justify-center'>
-                <CardTitle>Type your data</CardTitle>
-              </CardHeader>
-              <CardContent className='px-14'>
-                <TestForm />
-              </CardContent>
-            </Card>
-          </div>*/}
+          <TooltipProvider delayDuration={300}>
+            <RouterProvider router={router} />
+          </TooltipProvider>
           <ReactQueryDevtools buttonPosition='bottom-left' position='bottom' />
           {import.meta.env.PROD && import.meta.env.MODE === 'staging' && showDevTools && (
             <Suspense fallback={null}>
